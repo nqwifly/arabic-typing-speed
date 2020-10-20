@@ -5,7 +5,8 @@ class Result{
   double wpm;
 
   calculateTypingAccuracy(double durationInMin){
-    typingAccuracy= ((correctAnswersCount / (correctAnswersCount+incorrectAnswersCount))
+    typingAccuracy = correctAnswersCount <= 0? 0 :
+    ((correctAnswersCount / (correctAnswersCount+incorrectAnswersCount))
         * 100).round();
   }
 

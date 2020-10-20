@@ -27,13 +27,13 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('ar'),
       ],
-      title: 'سرعة كتابتك',
+      title: 'سرعة طباعتك',
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
+        primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       navigatorKey: navigatorKey,
-      home: TestPage(title: 'اختبر سرعة كتابتك', duration: Duration(seconds: 30),),
+      home: TestPage(title: 'اختبر سرعة طباعتك', duration: Duration(seconds: 10),),
     );
   }
 }
