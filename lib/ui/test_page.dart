@@ -97,23 +97,6 @@ class _TestPageState extends State<TestPage> {
                                   fontSize: 30, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                CircularProgressIndicator(
-                                  value: currentTimerCount /
-                                      widget.duration.inSeconds,
-                                  strokeWidth: 3,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(Colors.red),
-                                  backgroundColor: Colors.grey,
-                                ),
-                                Text('$currentTimerCount'),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                       SizedBox(
@@ -156,22 +139,43 @@ class _TestPageState extends State<TestPage> {
 
   Widget getTextboxUI() {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          height: 100,
-          child: RichText(
-            text: TextSpan(
-              style: TextStyle(fontSize: 30, color: Colors.white),
-              children: textAsWordList
-                  .map((TextWord textWord) => TextSpan(
-                        text: '${textWord.word} ',
-                        style: textWord.textStyle,
-                      )) // put the text inside a widget
-                  .toList(),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                  children: textAsWordList
+                      .map((TextWord textWord) => TextSpan(
+                            text: '${textWord.word} ',
+                            style: textWord.textStyle,
+                          )) // put the text inside a widget
+                      .toList(),
+                ),
+              ),
             ),
           ),
-        ),
+          Container(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0, bottom: 10),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    value: currentTimerCount / widget.duration.inSeconds,
+                    strokeWidth: 3,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                    backgroundColor: Colors.grey,
+                  ),
+                  Text('$currentTimerCount'),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
