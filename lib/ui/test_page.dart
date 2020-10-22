@@ -183,7 +183,7 @@ class _TestPageState extends State<TestPage> {
   Widget getTypingBar() {
     return Container(
       decoration: BoxDecoration(
-        color: HexColor('#F8FAFB'),
+        color: Colors.grey[200],
         borderRadius: const BorderRadius.all(Radius.circular(13)),
       ),
       child: TextField(
@@ -197,14 +197,14 @@ class _TestPageState extends State<TestPage> {
           helperStyle: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
-            color: HexColor('#B9BABC'),
+            color: Colors.grey,
           ),
           contentPadding: EdgeInsets.all(10),
           labelStyle: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
             letterSpacing: 0.2,
-            color: HexColor('#B9BABC'),
+            color: Colors.grey,
           ),
         ),
       ),
@@ -337,16 +337,4 @@ Widget getAppBarUI() {
       ],
     ),
   );
-}
-
-class HexColor extends Color {
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll('#', '');
-    if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
 }

@@ -1,10 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'ui/test_page.dart';
-
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -33,7 +31,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       navigatorKey: navigatorKey,
-      home: TestPage(title: 'اختبر سرعة طباعتك', duration: Duration(seconds: 10),),
+      home: TestPage(
+        title: 'اختبر سرعة طباعتك',
+        duration: Duration(seconds: 30),
+      ),
     );
   }
 }
