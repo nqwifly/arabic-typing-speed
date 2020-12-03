@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:arabic_typing_speed/widgets/test_header.dart';
 import 'package:flutter/material.dart';
 
 import 'package:arabic_typing_speed/main.dart';
@@ -9,8 +10,6 @@ import 'package:arabic_typing_speed/ui/result_page.dart';
 import 'package:arabic_typing_speed/constants.dart';
 
 import 'package:countdown/countdown.dart';
-
-import '../app_theme.dart';
 
 class TestPage extends StatefulWidget {
   TestPage({Key key, this.title, this.duration}) : super(key: key);
@@ -23,7 +22,6 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   TypingTest typingTest;
   List<TextWord> textAsWordList;
-  List<String> userTypedWordsList;
   int currentWordIndex = 0;
 
   int correctAnswersCount = 0;
@@ -31,7 +29,6 @@ class _TestPageState extends State<TestPage> {
 
   TextEditingController _typerController = TextEditingController();
 
-  double durationInMin;
   CountDown cd;
   StreamSubscription<Duration> countDownSubscriber;
   bool _isTimerStarted = false;
@@ -42,11 +39,11 @@ class _TestPageState extends State<TestPage> {
     _typerController.addListener(typingWatcher);
     // _countDownController.pause();
 
-    durationInMin = widget.duration.inSeconds / 60;
+    // durationInMin = widget.duration.inSeconds / 60;
 
-    typingTest = TypingTest(durationInMin: durationInMin, text: textOptions[0]);
+    typingTest =
+        TypingTest(duration: widget.duration.inSeconds, text: textOptions[0]);
     textAsWordList = typingTest.transformTextToList();
-    userTypedWordsList = [];
 
     cd = CountDown(widget.duration, refresh: Duration(seconds: 1));
     currentTimerCount = widget.duration.inSeconds;
@@ -59,59 +56,61 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     // _countDownController.pause();
     return Container(
-      color: AppTheme.nearlyWhite,
+      color: Colors.white70,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Container(
           color: Colors.blueGrey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
-              ),
-              getAppBarUI(),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.only(topLeft: Radius.circular(75.0)),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              "النصّ: ",
-                              style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      getTextboxUI(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      getTypingBar()
-                    ],
+                MyTestHeader(),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(75.0)),
                   ),
-                ),
-              )
-            ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                "النصّ: ",
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 0,
+                        ),
+                        getTextboxUI(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        getTypingBar()
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -211,12 +210,6 @@ class _TestPageState extends State<TestPage> {
     );
   }
 
-  void dispose() {
-    _typerController.dispose();
-    countDownSubscriber.cancel();
-    super.dispose();
-  }
-
   startCountDown() async {
     countDownSubscriber = cd.stream.listen(null);
     countDownSubscriber.onData((data) {
@@ -225,7 +218,8 @@ class _TestPageState extends State<TestPage> {
       });
     });
     countDownSubscriber.onDone(() {
-      showResultPage(correctAnswersCount, incorrectAnswersCount, durationInMin);
+      showResultPage(correctAnswersCount, incorrectAnswersCount,
+          widget.duration.inSeconds);
     });
   }
 
@@ -257,9 +251,9 @@ class _TestPageState extends State<TestPage> {
   }
 
   void evaluateTypedInput(String typedValue) {
-    userTypedWordsList.add(typedValue.substring(0, typedValue.length - 1));
-    if (userTypedWordsList[currentWordIndex] ==
-        textAsWordList[currentWordIndex].word) {
+    //remove last space
+    typedValue = typedValue.trim();
+    if (typedValue == textAsWordList[currentWordIndex].word) {
       textAsWordList[currentWordIndex].textStyle = correctStyle;
       correctAnswersCount++;
     } else {
@@ -271,7 +265,8 @@ class _TestPageState extends State<TestPage> {
     if (currentWordIndex < textAsWordList.length)
       textAsWordList[currentWordIndex].textStyle = currentStyle;
     else
-      showResultPage(correctAnswersCount, incorrectAnswersCount, durationInMin);
+      showResultPage(correctAnswersCount, incorrectAnswersCount,
+          widget.duration.inSeconds);
   }
 
   void showResultPage(
@@ -285,56 +280,10 @@ class _TestPageState extends State<TestPage> {
       ),
     );
   }
-}
 
-Widget getAppBarUI() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
-    child: Row(
-      children: <Widget>[
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'اختبر',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  letterSpacing: 0.2,
-                  color: AppTheme.nearlyWhite,
-                ),
-              ),
-              Text(
-                'سرعة طباعتك',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                  letterSpacing: 0.27,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: 60,
-          height: 60,
-          child: Container(
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.cyan),
-              child: Hero(
-                tag: 'flash_icon',
-                child: Container(
-                    child: Image.asset(
-                  'assets/electric.png',
-                )),
-              )),
-        ),
-      ],
-    ),
-  );
+  void dispose() {
+    _typerController.dispose();
+    countDownSubscriber.cancel();
+    super.dispose();
+  }
 }

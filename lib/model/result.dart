@@ -1,17 +1,20 @@
-class Result{
+class Result {
   int correctAnswersCount;
   int incorrectAnswersCount;
   int typingAccuracy;
   double wpm;
 
-  calculateTypingAccuracy(double durationInMin){
-    typingAccuracy = correctAnswersCount <= 0? 0 :
-    ((correctAnswersCount / (correctAnswersCount+incorrectAnswersCount))
-        * 100).round();
+  calculateTypingAccuracy() {
+    typingAccuracy = correctAnswersCount <= 0
+        ? 0
+        : ((correctAnswersCount /
+                    (correctAnswersCount + incorrectAnswersCount)) *
+                100)
+            .round();
   }
 
-  calculateWpm(double durationInMin){
-    wpm= (correctAnswersCount+incorrectAnswersCount) / durationInMin;
+  calculateWpm(int durationInSec) {
+    wpm = (correctAnswersCount + incorrectAnswersCount) / (durationInSec / 60);
   }
 
   Result({this.correctAnswersCount, this.incorrectAnswersCount});
