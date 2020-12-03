@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:arabic_typing_speed/widgets/test_header.dart';
 import 'package:flutter/material.dart';
 
@@ -37,16 +38,16 @@ class _TestPageState extends State<TestPage> {
   @override
   void initState() {
     _typerController.addListener(typingWatcher);
-    // _countDownController.pause();
-
-    // durationInMin = widget.duration.inSeconds / 60;
 
     typingTest =
         TypingTest(duration: widget.duration.inSeconds, text: textOptions[0]);
     textAsWordList = typingTest.transformTextToList();
 
+    // setup the timer
     cd = CountDown(widget.duration, refresh: Duration(seconds: 1));
     currentTimerCount = widget.duration.inSeconds;
+
+    // setup the first word as the current sytle
     textAsWordList[currentWordIndex].textStyle = currentStyle;
 
     super.initState();
