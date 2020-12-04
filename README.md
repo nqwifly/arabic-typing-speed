@@ -1,4 +1,4 @@
-# arabic_typing_speed
+# Arabic Typing Speed
 
 A typing speed test application in Arabic using Flutter framework
 
