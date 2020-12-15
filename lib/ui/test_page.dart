@@ -39,8 +39,9 @@ class _TestPageState extends State<TestPage> {
   void initState() {
     _typerController.addListener(typingWatcher);
 
-    typingTest =
-        TypingTest(duration: widget.duration.inSeconds, text: textOptions[0]);
+    typingTest = TypingTest(
+        duration: widget.duration.inSeconds,
+        text: textOptions[Random().nextInt(textOptions.length)]);
     textAsWordList = typingTest.transformTextToList();
 
     // setup the timer
@@ -284,7 +285,7 @@ class _TestPageState extends State<TestPage> {
 
   void dispose() {
     _typerController.dispose();
-    countDownSubscriber.cancel();
+    if (countDownSubscriber != null) countDownSubscriber.cancel();
     super.dispose();
   }
 }
