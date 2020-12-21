@@ -14,7 +14,7 @@ class Result {
   }
 
   calculateWpm(int durationInSec) {
-    wpm = (correctAnswersCount + incorrectAnswersCount) / (durationInSec / 60);
+    wpm = (correctAnswersCount) / (durationInSec / 60);
   }
 
   Result({this.correctAnswersCount, this.incorrectAnswersCount});

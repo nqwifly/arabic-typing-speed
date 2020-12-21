@@ -1,3 +1,4 @@
+import 'package:arabic_typing_speed/constants.dart';
 import 'package:arabic_typing_speed/model/result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,39 +20,58 @@ class ResultPage extends StatelessWidget {
         key: _globalKey,
         child: Container(
             color: Colors.blueGrey,
-            child: Center(
-                child: Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Hero(
-                      tag: 'flash_icon',
-                      child: Container(
-                          height: 150,
-                          width: 150,
-                          child: Image.asset(
-                            'assets/electric.png',
-                          ))),
+                Flexible(
+                  flex: 10,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Hero(
+                            tag: 'flash_icon',
+                            child: Container(
+                                height: 150,
+                                width: 150,
+                                child: Image.asset(
+                                  'assets/electric.png',
+                                ))),
+                      ),
+                      Text(
+                        '${result.wpm}',
+                        style: TextStyle(
+                            fontSize: 50,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '  كلمة/الدقيقة',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      Text(
+                        ' طباعتك دقيقة بنسبة ${result.typingAccuracy}%',
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  '${result.wpm}',
-                  style: TextStyle(
-                      fontSize: 50,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '  كلمة/الدقيقة',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                Text(
-                  ' طباعتك دقيقة بنسبة ${result.typingAccuracy}%',
-                  style: TextStyle(fontSize: 30, color: Colors.white),
-                ),
+                Flexible(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "   * $kAverageTyping",
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ),
+                )
               ],
-            ))),
+            )),
       ),
     );
 

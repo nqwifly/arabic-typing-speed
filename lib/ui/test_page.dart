@@ -193,7 +193,6 @@ class _TestPageState extends State<TestPage> {
         enableSuggestions: false,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          labelText: textAsWordList[currentWordIndex].word,
           border: InputBorder.none,
           helperStyle: TextStyle(
             fontWeight: FontWeight.bold,
@@ -231,20 +230,22 @@ class _TestPageState extends State<TestPage> {
       return;
     }
 
+    String typedValue = _typerController.text;
+
     // start timer when user initiate typing
     if (!_isTimerStarted) {
-      startCountDown();
-      _isTimerStarted = true;
+      if (typedValue.length > 0) {
+        startCountDown();
+        _isTimerStarted = true;
+      }
     }
-
-    String typedValue = _typerController.text;
 
     if (typedValue.length > 0) {
       String pressedKey = typedValue.substring(typedValue.length - 1);
 
       if (pressedKey == ' ') {
         setState(() {
-          // reset the text field
+          // once the user press space, reset the text field and evaluate typed word
           _typerController.text = '';
           evaluateTypedInput(typedValue);
         });
